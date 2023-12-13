@@ -6,7 +6,7 @@
 #  *                                                                                                                                    *
 #  * Copyright © 2023. MongoExpUser.  All Rights Reserved.                                                                              *
 #  *                                                                                                                                    *
-#  * License: MIT - https://github.com/MongoExpUser/Ubuntu-PostgresSQL-Pgvector-Image-and-Containers/blob/main/LICENSE                  *
+#  * License: MIT - https://github.com/MongoExpUser/Ubuntu-PostgreSQL-Pgvector-Image-and-Containers/blob/main/LICENSE                   *
 #  *                                                                                                                                    *
 #  * @License Ends                                                                                                                      *
 #  **************************************************************************************************************************************

@@ -1,0 +1,212 @@
+# ***************************************************************************************************************************************
+# * docker-compose-redis.yml                                                                                                            *
+#  **************************************************************************************************************************************
+#  *                                                                                                                                    *
+#  * @License Starts                                                                                                                    *
+#  *                                                                                                                                    *
+#  * Copyright © 2023. MongoExpUser.  All Rights Reserved.                                                                              *
+#  *                                                                                                                                    *
+#  * icense: MIT - https://github.com/MongoExpUser/Ubuntu-PostgresSQL-Pgvector-Image-and-Containers/blob/main/LICENSE                   *
+#  *                                                                                                                                    *
+#  * @License Ends                                                                                                                      *
+#  **************************************************************************************************************************************
+# *                                                                                                                                     *
+# *  Project: Ubuntu-PostgreSQL Image & Container Project                                                                               *
+# *                                                                                                                                     *
+# *  This docker compose file deploys:                                                                                                  *
+# *                                                                                                                                     *                    
+# *     1)  PostgresSQL (With pgvector Extension) -  1 Primary Node                                                                     *
+# *                                                                                                                                     *
+# *     2)  PostgresSQL (With pgvector Extension)  -  1 Replica (Hot Standby) Node                                                      *
+# *                                                                                                                                     *
+# *  Version: PostgresSQL v16.1                                                                                                         *
+# *                                                                                                                                     *
+# *  Images name: weather/arm/ubuntu-22.04-postgres-16.1:latest                                                                         *
+# *                                                                                                                                     *
+# *  Purpose: Datastore for a Weather Application                                                                                       *
+# *                                                                                                                                     *
+# ***************************************************************************************************************************************
+
+
+version: "3.9"
+services:
+  psql-node1:
+    image: weather/x86-64/ubuntu-22.04-postgres-16.1-pgvector:latest
+    environment:
+      - REPLPASSWORD=${REPLPASSWORD}
+      - PGPASSWORD=${PGPASSWORD}
+    command: >
+      bash -c "set PWD=%cd%
+      && sudo su - postgres
+      && sudo chmod 750 /etc/postgresql/16/main
+      && sudo chmod 750 /var/lib/postgresql/16/main
+      && sudo chmod 750 /var/lib/postgresql/16/main/data
+      && sudo chown postgres /var/lib/postgresql/16/main/data
+      && sudo chown -R postgres:postgres /var/lib/postgresql/16/main/data
+      && sudo chown postgres /var/lib/postgresql/16/main/archivedir
+      && sudo chown -R postgres:postgres /var/lib/postgresql/16/main/archivedir
+      && sudo chmod 777 /var/log/postgresql
+      && sudo chmod 777 /var/log
+      && sudo chmod 777 /var/run/postgresql
+      && sudo chmod 777 /etc/postgresql/16/main/pg_hba.conf 
+      && sudo chmod 600 /etc/ssl/certs/ca.pem
+      && sudo chown postgres /etc/ssl/certs/ca.pem
+      && sudo chmod 600 /etc/ssl/certs/psql-cert.pem  
+      && sudo chown postgres /etc/ssl/certs/psql-cert.pem 
+      && sudo chmod 600 /etc/ssl/private/psql-cert.key
+      && sudo chown postgres /etc/ssl/private/psql-cert.key
+      && sudo service postgresql start
+      && sudo -u postgres psql -c \"DROP USER IF EXISTS replicator;\"
+      && sudo -u postgres psql -c \"CREATE USER replicator WITH REPLICATION LOGIN ENCRYPTED PASSWORD '${REPLPASSWORD}';\"
+      && sudo -u postgres psql -c \"CREATE EXTENSION IF NOT EXISTS vector;\"
+      && sudo -u postgres psql -c \"ALTER USER postgres WITH LOGIN ENCRYPTED PASSWORD '${PGPASSWORD}';\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET listen_addresses TO '*';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_connections TO 100;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl = on;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_ca_file = '';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_cert_file TO '/etc/ssl/certs/psql-cert.pem';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_key_file TO '/etc/ssl/private/psql-cert.key';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_ciphers TO 'HIGH:MEDIUM:+3DES:!aNULL';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_prefer_server_ciphers TO on;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_min_protocol_version TO 'TLSv1.2';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET shared_buffers TO '128MB';\"         
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET work_mem TO '4MB';\"             
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET maintenance_work_mem TO '64MB';\"    
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_wal_senders TO 10;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_replication_slots TO 10;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET wal_keep_size TO '10GB';\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_standby_names TO 'FIRST 1 (*)';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET wal_level TO replica;\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET hot_standby TO on;\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO on;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_mode TO on;\"    
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_command TO 'test ! -f /var/lib/postgresql/16/main/archivedir/%f && cp %p /var/lib/postgresql/16/main/archivedir/%f';\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_timeout TO 0;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_cleanup_command TO 'pg_archivecleanup -d /var/lib/postgresql/16/main/archivedir/ %r 2>>cleanup.log';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET restore_command TO 'cp /var/lib/postgresql/16/main/archivedir/%f "%p"';\"     
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET recovery_end_command TO 'ls -lh';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET track_counts TO on;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET autovacuum TO on;\" 
+      && sudo service postgresql stop
+      && sudo su - postgres
+      && sudo chmod 777 /var/lib/postgresql/16/main/postgresql.auto.conf
+      && sudo service postgresql start
+      && sudo tail -f /dev/null"
+    container_name: psql-node1
+    restart: always
+    volumes:
+      - ./primary/cfg/pg_hba.conf:/etc/postgresql/16/main/pg_hba.conf           
+      - ./primary/tls/ca.pem:/etc/ssl/certs/ca.pem
+      - ./primary/tls/psql-cert.pem:/etc/ssl/certs/psql-cert.pem  
+      - ./primary/tls/psql-cert.key:/etc/ssl/private/psql-cert.key 
+      - main1:/var/lib/postgresql/16/main
+      - data1:/var/lib/postgresql/16/main/data
+      - arch1:/var/lib/postgresql/16/main/archivedir
+      - logs1:/var/log/postgresql
+      - pids1:/var/run/postgresql
+    ports:
+      - 5432:5432
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 6s
+      timeout: 3s
+      retries: 3
+  psql-node2:
+    depends_on:
+      psql-node1:
+        condition: service_healthy
+    image: weather/x86-64/ubuntu-22.04-postgres-16.1-pgvector:latest
+    environment:
+      - REPLPASSWORD=${REPLPASSWORD}
+      - PGPASSWORD=${PGPASSWORD}
+    command: >
+      bash -c "set PWD=%cd%
+      && sudo su - postgres
+      && sudo chmod 750 /etc/postgresql/16/main
+      && sudo chmod 750 /var/lib/postgresql/16/main
+      && sudo chmod 750 /var/lib/postgresql/16/main/data
+      && sudo chown postgres /var/lib/postgresql/16/main/data
+      && sudo chown -R postgres:postgres /var/lib/postgresql/16/main/data
+      && sudo chown postgres /var/lib/postgresql/16/main/archivedir
+      && sudo chown -R postgres:postgres /var/lib/postgresql/16/main/archivedir
+      && sudo chmod 777 /var/log/postgresql
+      && sudo chmod 777 /var/log
+      && sudo chmod 777 /var/run/postgresql
+      && sudo chmod 777 /etc/postgresql/16/main/pg_hba.conf 
+      && sudo chmod 600 /etc/ssl/certs/ca.pem
+      && sudo chown postgres /etc/ssl/certs/ca.pem
+      && sudo chmod 600 /etc/ssl/certs/psql-cert.pem  
+      && sudo chown postgres /etc/ssl/certs/psql-cert.pem 
+      && sudo chmod 600 /etc/ssl/private/psql-cert.key
+      && sudo chown postgres /etc/ssl/private/psql-cert.key
+      && sudo service postgresql start 
+      && sudo -u postgres psql -c \"CREATE EXTENSION IF NOT EXISTS vector;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET listen_addresses TO '*';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_connections TO 100;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl TO on;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_ca_file = '';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_cert_file TO '/etc/ssl/certs/psql-cert.pem';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_key_file TO '/etc/ssl/private/psql-cert.key';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_ciphers TO 'HIGH:MEDIUM:+3DES:!aNULL';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_prefer_server_ciphers TO on;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET ssl_min_protocol_version TO 'TLSv1.2';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET shared_buffers TO '128MB';\"         
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET work_mem TO '4MB';\"             
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET maintenance_work_mem TO '64MB';\"    
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_wal_senders TO 10;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET max_replication_slots TO 10;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET wal_keep_size TO '10GB';\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_standby_names TO 'FIRST 1 (*)';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET primary_conninfo TO 'host=host.docker.internal port=5432 user=replicator password="${PGPASSWORD}" application_name=r1';\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET wal_level TO replica;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET hot_standby TO on;\"  
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO on;\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_mode TO on;\"    
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_command TO 'test ! -f /var/lib/postgresql/16/main/archivedir/%f && cp %p /var/lib/postgresql/16/main/archivedir/%f';\"   
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_timeout TO 0;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET archive_cleanup_command TO 'pg_archivecleanup -d /var/lib/postgresql/16/main/archivedir/ %r 2>>cleanup.log';\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET restore_command TO 'cp /var/lib/postgresql/16/main/archivedir/%f "%p"';\"     
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET recovery_end_command TO 'ls -lh';\"
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET track_counts TO on;\" 
+      && sudo -u postgres psql -c \"ALTER SYSTEM SET autovacuum TO on;\"
+      && sudo service postgresql stop
+      && sudo su - postgres
+      && sudo chmod 777 /var/lib/postgresql/16/main/postgresql.auto.conf
+      && echo \"data_directory = '/var/lib/postgresql/16/main/data'\" >>  "/etc/postgresql/16/main/postgresql.conf"
+      && sudo -u postgres PGPASSWORD="${PGPASSWORD}" pg_basebackup -U replicator -h host.docker.internal -p 5432 -D /var/lib/postgresql/16/main/data -Fp -Xs -R -v -P 
+      && sudo service postgresql start
+      && sudo tail -f /dev/null"
+    container_name: psql-node2
+    restart: always
+    volumes:
+      - ./replica/cfg/pg_hba.conf:/etc/postgresql/16/main/pg_hba.conf
+      - ./replica/tls/ca.pem:/etc/ssl/certs/ca.pem
+      - ./replica/tls/psql-cert.pem:/etc/ssl/certs/psql-cert.pem 
+      - ./replica/tls/psql-cert.key:/etc/ssl/private/psql-cert.key 
+      - main2:/var/lib/postgresql/16/main
+      - data2:/var/lib/postgresql/16/main/data
+      - arch2:/var/lib/postgresql/16/main/archivedir
+      - logs2:/var/log/postgresql
+      - pids2:/var/run/postgresql
+    ports:
+      - 5433:5432
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 6s
+      timeout: 3s
+      retries: 3
+volumes:
+  main1:
+  data1:
+  arch1:
+  logs1:
+  pids1:
+  main2:
+  data2:
+  arch2:
+  logs2:
+  pids2:

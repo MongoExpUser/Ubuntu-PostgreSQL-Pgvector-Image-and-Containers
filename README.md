@@ -1,5 +1,5 @@
 
-# Ubuntu-PostgresSQL-Pgvector-Image-and-Containers
+# Ubuntu-PostgreSQL-Pgvector-Image-and-Containers
 
 <strong> Create Image and Deploy Containers for PostgreSQL 16 (1 Primary and 1 Replica) with pgvector extension and Manual Failover option for a Weather Application.</strong>
 

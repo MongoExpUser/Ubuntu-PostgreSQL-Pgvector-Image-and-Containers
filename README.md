@@ -79,6 +79,9 @@
     sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_hba_file_rules;'"
     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_hba_file_rules;'"
 
+### 12) Test Failover:
+    * Run the following command on the replica (node 2) and promote into Primary.
+    SELECT pg_promote();
 
 
 

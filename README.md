@@ -3,7 +3,7 @@
 
 <strong> Create Image and Deploy Containers for PostgreSQL 16 (1 Primary and 1 Replica) with pgvector extension and Manual Failover option for a Weather Application.</strong>
 
-### Architectural Diagram of Postgres Primary and Replica. The Replica is a Synchronous Standby - 'FIRST 1 (*)'
+### Architectural Diagram Depicting Postgres Primary and Replica. The Replica is a Synchronous Standby - 'FIRST 1 (*)'
 ![Image description](https://github.com/MongoExpUser/Ubuntu-PostgreSQL-Pgvector-Image-and-Containers/blob/main/pgsql-pgvector-lambda-arch.png)
 
 ### 1) Build Image:                                                                                             

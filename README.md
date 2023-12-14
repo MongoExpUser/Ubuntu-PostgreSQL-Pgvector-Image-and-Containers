@@ -39,7 +39,7 @@
 
 ### 5) Check Replication Status After Deployment
     * Primary and Replica PostgreSQL Nodes
-	sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, state, client_addr, client_port, replay_lsn, write_lag FROM pg_stat_replication;'"
+	sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, state, client_addr, client_port, replay_lsn, sync_state FROM pg_stat_replication;'"
 	sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, status, receive_start_lsn, written_lsn, latest_end_lsn, latest_end_time, sender_host, sender_port  FROM pg_stat_wal_receiver;'"
 
 

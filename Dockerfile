@@ -11,7 +11,7 @@
 #  * @License Ends                                                                                                                      *
 #  **************************************************************************************************************************************
 # *                                                                                                                                     *
-# *  Project: Ubuntu-Postgres-Pgvector Image & Container Project                                                                        *
+# *  Project: Ubuntu-Postgres-Pgvector Image & Containers Project                                                                       *
 # *                                                                                                                                     *
 # *  This dockerfile creates an image based on:                                                                                         *
 # *                                                                                                                                     *

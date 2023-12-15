@@ -39,22 +39,22 @@
 
 ### 5) Check Replication Status After Deployment
     * Primary and Replica PostgreSQL Nodes
-	sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, state, client_addr, client_port, replay_lsn, sync_state FROM pg_stat_replication;'"
-	sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, status, receive_start_lsn, written_lsn, latest_end_lsn, latest_end_time, sender_host, sender_port  FROM pg_stat_wal_receiver;'"
+    sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, state, client_addr, client_port, replay_lsn, sync_state FROM pg_stat_replication;'"
+    sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'SELECT pid, status, receive_start_lsn, written_lsn, latest_end_lsn, latest_end_time, sender_host, sender_port  FROM pg_stat_wal_receiver;'"
 
 
 ### 6) Confirmation
     * Primary and Replica PostgreSQL Nodes
-	Primary State: If the value of "state" is  "streaming" and the values of the remaining paramters are displayed, then the primary is okay and replicating.
+    Primary State: If the value of "state" is  "streaming" and the values of the remaining paramters are displayed, then the primary is okay and replicating.
     Replica Status: If the value of "status" is "streaming" and the values of the remaining parameters are displayed, it implies the replica is also okay and it is receiving replication data.
 
 
 ### 7) Inspect the Postgres Services and the Container Logs:
      * Primary and Replica PostgreSQL Nodes
-	sudo docker exec -it psql-node1 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
-	sudo docker exec -it psql-node2 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
-	sudo docker logs psql-node1 
-	sudo docker logs psql-node2
+     sudo docker exec -it psql-node1 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
+     sudo docker exec -it psql-node2 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
+     sudo docker logs psql-node1 
+     sudo docker logs psql-node2
 
 ### 8) Check Logs From Inside the Host -  First Check After Deployment</strong>:                                                                                             
      * Primary and Replica PostgreSQL Nodes
@@ -85,7 +85,6 @@
 
 
 
- 
 # License
 
 Copyright © 2023. MongoExpUser

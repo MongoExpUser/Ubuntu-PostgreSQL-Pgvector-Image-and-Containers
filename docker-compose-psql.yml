@@ -17,7 +17,7 @@
 # *                                                                                                                                     *                    
 # *     1)  PostgresSQL (With pgvector Extension) -  1 Primary Node                                                                     *
 # *                                                                                                                                     *
-# *     2)  PostgresSQL (With pgvector Extension)  -  1 Replica (Hot Standby) Node                                                      *
+# *     2)  PostgresSQL (With pgvector Extension) -  1 Replica (Hot Standby) Node                                                       *
 # *                                                                                                                                     *
 # *  Version: PostgresSQL v16.1                                                                                                         *
 # *                                                                                                                                     *

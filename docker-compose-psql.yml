@@ -21,7 +21,7 @@
 # *                                                                                                                                     *
 # *  Version: PostgresSQL v16.1                                                                                                         *
 # *                                                                                                                                     *
-# *  Images name: weather/arm/ubuntu-22.04-postgres-16.1:latest                                                                         *
+# *  Images name: weather/x86-64/ubuntu-22.04-postgres-16.1:latest                                                                      *
 # *                                                                                                                                     *
 # *  Purpose: Datastore for a Weather Application                                                                                       *
 # *                                                                                                                                     *

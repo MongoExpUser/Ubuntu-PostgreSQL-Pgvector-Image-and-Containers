@@ -27,7 +27,7 @@
      * Stop and remove containers with related network and volumes
      set PWD=%cd% && sudo docker compose -f docker-compose-psql.yml --project-directory $PWD --project-name "psql-weather-app" down && sudo docker volume rm $(docker volume ls -q)
 
-### 4) Stop, Re-Start aand Log Services with Docker Compose: 
+### 4) Stop, Re-Start and Log Services with Docker Compose: 
      * Stop services
      set PWD=%cd% && sudo docker compose -f docker-compose-psql.yml --project-directory $PWD --project-name "psql-weather-app" stop
      
@@ -45,33 +45,28 @@
 
 ### 6) Confirmation
     * Primary and Replica PostgreSQL Nodes
-    Primary State: If the value of "state" is  "streaming" and the values of the remaining paramters are displayed, then the primary is okay and replicating.
+    Primary State: If the value of "state" is  "streaming" and the values of the remaining parameters are displayed, then the primary is okay and replicating.
     Replica Status: If the value of "status" is "streaming" and the values of the remaining parameters are displayed, it implies the replica is also okay and it is receiving replication data.
 
 
 ### 7) Inspect the Postgres Services and the Container Logs:
      * Primary and Replica PostgreSQL Nodes
-     sudo docker exec -it psql-node1 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
-     sudo docker exec -it psql-node2 /bin/bash -c  "sudo tail -n 400 -f  /var/log/postgresql/postgresql-16-main.log"
+     sudo docker exec -it psql-node1 /bin/bash -c  "sudo tail -n 600 -f  /var/log/postgresql/postgresql-16-main.log"
+     sudo docker exec -it psql-node2 /bin/bash -c  "sudo tail -n 600 -f  /var/log/postgresql/postgresql-16-main.log"
      sudo docker logs psql-node1 
      sudo docker logs psql-node2
 
-### 8) Check Logs From Inside the Host -  First Check After Deployment</strong>:                                                                                             
-     * Primary and Replica PostgreSQL Nodes
-     sudo docker exec -it psql-node1 /bin/bash -c "sudo tail -n 600  /var/log/postgresql/postgresql-16-main.log"
-     sudo docker exec -it psql-node2 /bin/bash -c "sudo tail -n 600  /var/log/postgresql/postgresql-16-main.log"
-
-### 9) Interact with Containers/Connect to Containers:                                                                                             
+### 8) Interact with Containers/Connect to Containers:                                                                                             
      * Primary and Replica PostgreSQL Nodes
      sudo docker exec -it psql-node1 /bin/bash
      sudo docker exec -it psql-node2 /bin/bash
      
-### 10) Connect to PostgreSQL Servers From the Host:                                                                                          
+### 9) Connect to PostgreSQL Servers From the Host:                                                                                          
      * Primary and Replica PostgreSQL Nodes
      sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql"
      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql"
 
-### 11) Check Configuration Information: Run Directly with Bash:                                                                                                                    
+### 10) Check Configuration Information: Run Directly with Bash:                                                                                                                    
     * Postgresql.conf on  the Primary and Replica PostgreSQL Nodes
     sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_file_settings;'"
     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_file_settings;'"
@@ -79,7 +74,7 @@
     sudo docker exec -it psql-node1 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_hba_file_rules;'"
     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_hba_file_rules;'"
 
-### 12) Test Failover:
+### 11) Test Failover:
     * Run the following command on the replica (node 2) and promote into Primary.
     SELECT pg_promote();
 

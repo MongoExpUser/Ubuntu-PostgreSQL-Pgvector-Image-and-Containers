@@ -4,9 +4,9 @@
 #  *                                                                                                                                    *
 #  * @License Starts                                                                                                                    *
 #  *                                                                                                                                    *
-#  * Copyright © 2023. MongoExpUser.  All Rights Reserved.                                                                              *
+#  * Copyright © 2024. MongoExpUser.  All Rights Reserved.                                                                              *
 #  *                                                                                                                                    *
-#  * License: MIT - https://github.com/MongoExpUser/Ubuntu-PostgreSQL-Pgvector-Image-and-Containers/blob/main/LICENSE                   *
+#  *  * License: MIT - https://github.com/MongoExpUser/Ubuntu-PostgreSQL-Pgvector-Image-and-Containers/blob/main/LICENSE                *
 #  *                                                                                                                                    *
 #  * @License Ends                                                                                                                      *
 #  **************************************************************************************************************************************
@@ -35,7 +35,6 @@
 # *        Invoke as:sudo node --inspect=$((9233 + $RANDOM % 100)) --trace-warnings --trace-deprecation --watch app.js                  *
 # *                                                                                                                                     *
 # **************************************************************************************************************************************/
-
 
 
 class AppVanilla
@@ -184,15 +183,18 @@ class AppVanilla
                             request.body = body;
                         }
                         
-                        // 2. other middleware(s)
+                        // 2. other middlewares
                         //createdMiddlewares.CompressionVanilla(request, response);                           // compression middleware
                         //createdMiddlewares.SecurityVanilla(request, response);                              // security middleware, like helmet
                         //createdMiddlewares.LoggerVanilla(request, response);                                // logger middlware, like morgan
                         //createdMiddlewares.BasicAuthenticationVanilla(request, response);                   // basic authentication middleware: should come after "logger" middleware (optional)
 
-                        // 3. route(s)
-                        //createdRoutes.WeatherApp(post, request, response);                                  // weather application route
+                        // 3. routes
+                        //add more routes as deem necessary
+                        // ..
+                        // ..
                         //createdRoutes.ServeStaticFilesVanilla(get, request, response, staticFileOptions);   // static file server as routes: should come last
+                        
                         
                         // serve html response example (for testing)
                         const html = "<html><center><p><h2>Successful Web Server Deployment!</h2><p/></center></html>";

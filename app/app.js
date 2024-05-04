@@ -11,7 +11,7 @@
 #  * @License Ends                                                                                                                      *
 #  **************************************************************************************************************************************
 # *                                                                                                                                     *
-# *  Project: Ubuntu-Redis-Stack Image & Container Project                                                                              *
+# *  Project: Ubuntu PostgreSQl Pgvector Image & Container Project                                                                      *
 # *                                                                                                                                     *
 # *  This module deploys:                                                                                                               *
 # *                                                                                                                                     *                                                                                                              *

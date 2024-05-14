@@ -90,7 +90,7 @@
  ### 13) Production Rebuild of Standy/Replica:   
     * After failover, a new Standy/Replica can be rebuilt with pg_basebackup: https://www.postgresql.org/docs/current/app-pgbasebackup.html
       Then, set relevant configuration settings on:
-      Replica: (a) primary_conninfo = 'host=hostname, port=port user=user ....' and (b) primary_slot_name = "slot_name" 
+      Replica: (a) primary_conninfo = 'host=hostname, port=port user=user ....' and (b) primary_slot_name = 'slot_name'
       Primary: (a) synchronous_commit = on and (b) SELECT * FROM pg_create_physical_replication_slot('slot_name');
     * The above steps for rebuilding the Standdy/Replica can also be scripted as a bash script.
       

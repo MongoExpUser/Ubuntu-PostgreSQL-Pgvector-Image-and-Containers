@@ -77,11 +77,11 @@
 ### 11) Test Failover:
     * Run the following command on the replica (node 2) and promote into Primary.
     sudo docker exec -it psql-node2 /bin/bash -c 'sudo -u postgres psql -c "SELECT pg_promote(wait := FALSE);"'
-    sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_standby_names TO '';\" "
-    sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql stop'
-    sudo sleep 5
-    sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql start'
-    * Then switch the application(s) to point to the NEW Primary (i.e OLD Replica)
+    sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO off;\" "
+    sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
+    * Can also push the above 3 statements into bash script (promote-standy.sh) and execute on the docker host.
+    * Then switch the application(s) to point to the NEW Primary (i.e OLD Replica).
+    
 
 
 

@@ -8,7 +8,7 @@
 
 ### 1) Build Image:                                                                                             
      * Build
-       sudo docker build --no-cache -t weather/x86-64/ubuntu-22.04-postgres-16.1-pgvector:latest .
+       sudo docker build --no-cache -t weather/x86-64/ubuntu-22.04-postgres-16-pgvector:latest .
 
 ### 2) Edit config files and TLS files in the following path in the repository, as deem necessary:    
      - ./primary/cfg/pg_hba.conf         

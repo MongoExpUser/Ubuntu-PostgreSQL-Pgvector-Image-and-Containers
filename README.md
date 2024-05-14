@@ -83,7 +83,7 @@
     * The application(s) can then be switched to point to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 12) Production Failover:   
-    * In production deployment, the database connection logic can be written to ensure that the primary active before before any write or ready operation. 
+    * In production deployment, the database connection logic can be written to ensure that the primary active before any write or ready operation. 
       If not active (that is down), a promotion of the standy/replica can be initiated  with the bash script above (promote-standy.sh).
       After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
     

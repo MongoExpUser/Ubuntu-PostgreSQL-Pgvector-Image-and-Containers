@@ -75,17 +75,17 @@
       sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c 'TABLE pg_hba_file_rules;'"
 
 ### 11) Test Failover:
-    * Run the following command on the replica (node 2) and promote into Primary.
+    * Run the following commands on the Standby/Replica (node 2) and promote into Primary.
       sudo docker exec -it psql-node2 /bin/bash -c 'sudo -u postgres psql -c "SELECT pg_promote(wait := FALSE);"'
       sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO off;\" "
       sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
-    * Can also put the above 3 statements into bash script (promote-standy.sh) and execute on the docker host directly.
-    * Then switch the application(s) to point to the NEW Primary (i.e OLD Replica).
+    * The above 3 statements can also be put into a bash script (promote-standy.sh) and execute on the docker host directly.
+    * The application(s) can then be switched to point to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 12) Production Failover:   
-    * In production deployment , the database connection logic can be written to ensure that the primary active before before any write or ready operation. 
+    * In production deployment, the database connection logic can be written to ensure that the primary active before before any write or ready operation. 
       If not active (that is down), a promotion of the standy/replica can be initiated  with the bash script above (promote-standy.sh).
-      Application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica).
+      After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
     
 
 

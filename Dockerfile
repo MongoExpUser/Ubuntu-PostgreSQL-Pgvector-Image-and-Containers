@@ -19,7 +19,7 @@
 # *                                                                                                                                     *
 # *   2)  Additional Ubuntu Utility Packages                                                                                            *
 # *                                                                                                                                     *
-# *   3)  PostgreSQL v16.1 (Architecture: x86_64) with pgvector extension (Vector Storage & Vector Search Capabilities)                 *
+# *   3)  PostgreSQL v16  (Architecture: x86_64) with pgvector extension (Vector Storage & Search Capabilities)                         *
 # *                                                                                                                                     *
 # *   4)  Python v3.x                                                                                                                   *
 # *                                                                                                                                     *
@@ -35,7 +35,7 @@
 # *                                                                                                                                     *
 # *   10) NodeJS Packages: @aws-sdk/client-s3, pg, etc.                                                                                 *
 # *                                                                                                                                     *
-# *   11) Docker 24.0.7: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin                               *
+# *   11) Docker 26.1: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin                                 *
 # *                                                                                                                                     *
 # *   12) Files clean up                                                                                                                *
 # *                                                                                                                                     *
@@ -120,7 +120,7 @@ RUN sudo apt-get install -y nodejs
 # 10. Node.js packages
 RUN npm install --prefix "/home/base" @aws-sdk/client-s3 pg sqlite3 duckdb 
 
-# 11. Docker 24.0.7: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# 11. Docker 26.1: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN sudo apt-get -y update 
 RUN sudo apt-get -y install apt-transport-https ca-certificates curl gnupg lsb-release 
 RUN sudo mkdir -m 0755 -p /etc/apt/keyrings 

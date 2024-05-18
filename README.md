@@ -88,14 +88,12 @@
       After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 13) Production Rebuild of Standy/Replica:   
-    * After failover, a new Standy/Replica can be rebuilt with pg_basebackup: https://www.postgresql.org/docs/current/app-pgbasebackup.html
-      Then, set relevant configuration settings on:
-      Replica: (a) primary_conninfo = 'host=hostname, port=port user=user ....' and (b) primary_slot_name = 'slot_name'
-      Primary: (a) synchronous_commit = on and (b) SELECT * FROM pg_create_physical_replication_slot('slot_name');
-    * The above steps for rebuilding the Standy/Replica can also be scripted as a bash script.
+    * After failover, a new Standy/Replica can be rebuilt with either:
+      1) pg_basebackup: https://www.postgresql.org/docs/current/app-pgbasebackup.html or
+      2) pg_rewind: https://www.postgresql.org/docs/current/app-pgrewind.html
+    * The steps for rebuilding the Standy/Replica can also be scripted as a bash script.
       
     
-
 
 
 # License

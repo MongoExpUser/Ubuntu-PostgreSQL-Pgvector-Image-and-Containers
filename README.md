@@ -81,7 +81,7 @@
      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"SELECT * FROM pg_create_physical_replication_slot('main_slot');\" "
      sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO on;\" "
-    * The above 5 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly. 
+    * The above 5 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly. See the repository
     * The application(s) can then be switched to point to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 12) Production Failover:   

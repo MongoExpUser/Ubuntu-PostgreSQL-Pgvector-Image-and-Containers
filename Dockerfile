@@ -67,7 +67,7 @@ RUN sudo apt-get -y dist-upgrade
 RUN sudo apt-get -y update 
 
 # 2. Additional Ubuntu Packages
-RUN  sudo apt-get install -y systemd apt-utils nfs-common nano unzip zip gzip 
+RUN sudo apt-get install -y systemd apt-utils nfs-common nano unzip zip gzip 
 RUN sudo apt-get install -y sshpass cmdtest snap nmap net-tools wget curl tcl-tls 
 RUN sudo apt-get install -y iputils-ping certbot python3-certbot-apache gnupg gnupg2 telnet 
 RUN sudo apt-get install -y aptitude build-essential gcc make screen snapd spamc parted openssl   
@@ -81,12 +81,11 @@ RUN sudo apt-get -y update
 RUN sudo apt-get -y install postgresql-16 
 
 # 3b. Pgvector extension (for vector storage and search)
-RUN sudo apt install -y postgresql-common 
-RUN sudo apt install curl ca-certificates 
+RUN sudo apt-get -y install postgresql-common 
+RUN sudo apt-get -y install curl ca-certificates 
 RUN sudo install -d /usr/share/postgresql-common/pgdg 
 RUN sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc 
 RUN sudo apt-get -y install postgresql-16-pgvector 
-RUN echo -ne '\n'
 # CREATE EXTENSION IF NOT EXISTS vector;  => Add to postgres via docker compose file (docker-compose-psql.yml)
 
 # 4. Python3.x 
@@ -110,7 +109,7 @@ RUN sudo ./aws/install
 
 # 9. Node.js v21.x 
 RUN sudo apt-get -y update
-RUN sudo apt-get install -y ca-certificates curl gnupg
+RUN sudo apt-get -y install ca-certificates curl gnupg
 RUN sudo mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_21.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
@@ -131,5 +130,5 @@ RUN sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-
 
 # 12. Finally, clean up files
 RUN sudo rm -rf /var/lib/apt/lists/* 
-RUN sudo apt-get autoclean 
-RUN sudo apt-get autoremove
+RUN sudo apt-get -y autoclean 
+RUN sudo apt-get -y autoremove

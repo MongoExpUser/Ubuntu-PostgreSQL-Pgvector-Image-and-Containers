@@ -81,13 +81,14 @@
      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"SELECT * FROM pg_create_physical_replication_slot('main_slot');\" "
      sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO on;\" "
-    * The above 5 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly. See the repository
+    * The above 5 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly. See the repository.
     * The application(s) can then be switched to point to the NEW Primary (i.e OLD Replica/Standby).
 
- ### 12) Production Failover:   
+ ### 12) Production Failover:    
     * In production deployment, the database connection logic can be written to ensure that the primary is active before any write or ready operation. 
-      If not active (that is, down), a promotion of the standy/replica can be initiated  with the bash script above (promote-standy.sh). See the repository.
-      After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
+      E.g Within try-catch-finally statement and in combination with either switch or if-else statement.
+    * If not active (that is, down), a promotion of the replica/standy to primary can be initiated  with the bash script above (promote-standy.sh). See the repository.
+    * After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 13) Production Rebuild of Standy/Replica:   
     * After failover, a new Standy/Replica can be rebuilt, on the old primary node or on a another node, with either:

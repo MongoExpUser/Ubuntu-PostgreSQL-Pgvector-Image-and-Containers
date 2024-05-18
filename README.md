@@ -76,22 +76,24 @@
 
 ### 11) Test Failover:
     * Run the following commands on the Standby/Replica (node 2) and promote into Primary.
-      sudo docker exec -it psql-node2 /bin/bash -c 'sudo -u postgres psql -c "SELECT pg_promote(wait := FALSE);"'
-      sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO off;\" "
-      sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
-    * The above 3 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly.
+     sudo docker exec -it psql-node2 /bin/bash -c 'sudo -u postgres psql -c "SELECT pg_promote(wait := FALSE);"'
+     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO off;\" "
+     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"SELECT * FROM pg_create_physical_replication_slot('main_slot');\" "
+     sudo docker exec -it psql-node2 /bin/bash -c 'sudo service postgresql restart'
+     sudo docker exec -it psql-node2 /bin/bash -c "sudo -u postgres psql -c \"ALTER SYSTEM SET synchronous_commit TO on;\" "
+    * The above 5 statements can also be put into a bash script (promote-standy.sh) and executed on the docker host directly. 
     * The application(s) can then be switched to point to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 12) Production Failover:   
     * In production deployment, the database connection logic can be written to ensure that the primary is active before any write or ready operation. 
-      If not active (that is, down), a promotion of the standy/replica can be initiated  with the bash script above (promote-standy.sh).
+      If not active (that is, down), a promotion of the standy/replica can be initiated  with the bash script above (promote-standy.sh). See the repository.
       After that, application(s) connection string can then be pointed to the NEW Primary (i.e OLD Replica/Standby).
 
  ### 13) Production Rebuild of Standy/Replica:   
-    * After failover, a new Standy/Replica can be rebuilt with either:
+    * After failover, a new Standy/Replica can be rebuilt, on the old primary node or on a another node, with either:
       1) pg_basebackup: https://www.postgresql.org/docs/current/app-pgbasebackup.html or
       2) pg_rewind: https://www.postgresql.org/docs/current/app-pgrewind.html
-    * The steps for rebuilding the Standy/Replica can also be scripted as a bash script.
+    * The steps for rebuilding the new Standy/Replica can also be scripted as a bash script.
       
     
 

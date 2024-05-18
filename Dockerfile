@@ -78,7 +78,7 @@ RUN sudo apt-get -y update
 RUN sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - 
 RUN sudo apt-get -y update 
-RUN sudo apt-get -y install postgresql 
+RUN sudo apt-get -y install postgresql-16 
 
 # 3b. Pgvector extension (for vector storage and search)
 RUN sudo apt install -y postgresql-common 

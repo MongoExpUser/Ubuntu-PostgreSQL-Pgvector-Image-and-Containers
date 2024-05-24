@@ -35,6 +35,7 @@ services:
     environment:
       - REPLPASSWORD=${REPLPASSWORD}
       - PGPASSWORD=${PGPASSWORD}
+      - DDLFILENAME=${DDLFILENAME}
     command: >
       bash -c "set PWD=%cd%
       && sudo su - postgres
@@ -97,6 +98,9 @@ services:
       && sudo su - postgres
       && sudo chmod 777 /var/lib/postgresql/16/main/postgresql.auto.conf
       && sudo service postgresql start
+      && sudo sleep 10
+      && sudo -u postgres psql < '${DDLFILENAME}'
+      && sudo -u postgres psql -c \"SELECT pg_reload_conf(); \"
       && sudo tail -f /dev/null"
     container_name: psql-node1
     restart: always

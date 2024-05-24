@@ -10,7 +10,7 @@ CREATE EXTENSION IF NOT EXISTS postgres_fdw;
 -- schema/namepace
 CREATE SCHEMA IF NOT EXISTS weather AUTHORIZATION postgres;
 
--- user table
+-- weather user table
 DROP TABLE IF EXISTS weather.user CASCADE;
 CREATE TABLE IF NOT EXISTS weather.user (
   id INTEGER PRIMARY KEY NOT NULL GENERATED ALWAYS  AS IDENTITY, 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS weather.user (
   UNIQUE (email)
 );
 
--- weather data table
+-- weather info table
 DROP TABLE IF EXISTS weather.info CASCADE;
 CREATE TABLE IF NOT EXISTS weather.info (
   id INTEGER PRIMARY KEY NOT NULL GENERATED ALWAYS  AS IDENTITY, 

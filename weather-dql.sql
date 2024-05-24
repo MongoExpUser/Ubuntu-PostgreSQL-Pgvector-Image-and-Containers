@@ -45,6 +45,5 @@ WHERE details ->> 'name' IN (
 AND details -> 'main' ->> 'temp' > '10'
 ORDER BY name, id;
 
-
 -- 4.
 SELECT COUNT(*) FROM  weather.info;

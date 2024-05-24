@@ -1,5 +1,5 @@
 
--- create extension
+-- create extensions
 CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS hstore;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;

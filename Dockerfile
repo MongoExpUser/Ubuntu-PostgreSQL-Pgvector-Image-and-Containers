@@ -87,11 +87,11 @@ RUN sudo install -d /usr/share/postgresql-common/pgdg
 RUN sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc 
 RUN sudo apt-get -y update
 RUN sudo apt-get -y install postgresql-16-pgvector 
-# CREATE EXTENSION IF NOT EXISTS vector;  => Add to postgres via docker compose file (docker-compose-psql.yml)
+# CREATE EXTENSION IF NOT EXISTS vector;  => Add to postgres via docker compose file (docker-compose-psql.yml) or weather-ddl.sql
 
 # 3c. Pgcron (for job scheduling)
 RUN sudo apt-get -y install postgresql-16-cron
-# CREATE EXTENSION IF NOT EXISTS pg_cron;  => Add to postgres via docker compose file (docker-compose-psql.yml)
+# CREATE EXTENSION IF NOT EXISTS pg_cron;  => Add to postgres via docker compose file (docker-compose-psql.yml) or weather-ddl.sql
 
 # 4. Python3.x 
 RUN sudo apt-get -y install python3  

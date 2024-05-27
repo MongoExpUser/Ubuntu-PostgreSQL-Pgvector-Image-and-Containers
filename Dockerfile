@@ -91,7 +91,7 @@ RUN sudo apt-get -y install postgresql-16-pgvector
 
 # 3c. Pgcron (for job scheduling)
 RUN sudo apt-get -y install postgresql-16-cron
-# CREATE EXTENSION IF NOT EXISTS pg_cron;  => Add to postgres via docker compose
+# CREATE EXTENSION IF NOT EXISTS pg_cron;  => Add to postgres via docker compose file (docker-compose-psql.yml)
 
 # 4. Python3.x 
 RUN sudo apt-get -y install python3  

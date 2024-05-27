@@ -42,7 +42,7 @@
 # *                                                                                                                                     *
 # ***************************************************************************************************************************************
 
-# 1a. Base Image. Version: Any of 22.04, jammy-20230425, jammy. Ref: https://hub.docker.com/_/ubuntu
+# 1a. Base Image. Version: Any of 22.04 or jammy. Ref: https://hub.docker.com/_/ubuntu
 FROM ubuntu:22.04
 
 # 1b. Labels
@@ -85,6 +85,7 @@ RUN sudo apt-get -y install postgresql-common
 RUN sudo apt-get -y install curl ca-certificates 
 RUN sudo install -d /usr/share/postgresql-common/pgdg 
 RUN sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc 
+RUN sudo apt-get -y update
 RUN sudo apt-get -y install postgresql-16-pgvector 
 # CREATE EXTENSION IF NOT EXISTS vector;  => Add to postgres via docker compose file (docker-compose-psql.yml)
 

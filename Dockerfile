@@ -19,7 +19,7 @@
 # *                                                                                                                                     *
 # *   2)  Additional Ubuntu Utility Packages                                                                                            *
 # *                                                                                                                                     *
-# *   3)  PostgreSQL v16  (Architecture: x86_64) with pgvector extension (Vector Storage & Search Capabilities)                         *
+# *   3)  PostgreSQL v16  (Architecture: x86_64) with pgvector extension (Vector Storage & Search Capabilities) & pgcron extension      *
 # *                                                                                                                                     *
 # *   4)  Python v3.x                                                                                                                   *
 # *                                                                                                                                     *
@@ -87,6 +87,10 @@ RUN sudo install -d /usr/share/postgresql-common/pgdg
 RUN sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc 
 RUN sudo apt-get -y install postgresql-16-pgvector 
 # CREATE EXTENSION IF NOT EXISTS vector;  => Add to postgres via docker compose file (docker-compose-psql.yml)
+
+# 3c. Pgcron (for job scheduling)
+RUN sudo apt-get -y install postgresql-16-cron
+# CREATE EXTENSION IF NOT EXISTS pg_cron;  => Add to postgres via docker compose
 
 # 4. Python3.x 
 RUN sudo apt-get -y install python3  

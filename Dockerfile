@@ -101,7 +101,7 @@ RUN sudo apt-get -y install python3-pip
 
 # 6. Python3 packages
 RUN sudo python3 -m pip install boto3 
-RUN sudo -H python3 -m pip install pg8000 psycopg-binary psycopg_pool sb-json-tools jupyterlab jupyterlab-night
+RUN sudo -H python3 -m pip install pg8000 psycopg-binary psycopg_pool sb-json-tools jupyterlab jupyterlab-night pyarrow  pyiceberg pyarrow psycopg2 sqlalchemy
 
 # 7. Python3 Awscli upgrade
 RUN sudo python3 -m pip install --upgrade awscli 
@@ -122,7 +122,7 @@ RUN sudo apt-get -y update
 RUN sudo apt-get install -y nodejs
 
 # 10. Node.js packages
-RUN npm install --prefix "/home/base" @aws-sdk/client-s3 pg sqlite3 duckdb 
+RUN npm install --prefix "/home/base" @aws-sdk/client-s3 pg sqlite3 duckdb apache-arrow
 
 # 11. Docker 26.1: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN sudo apt-get -y update 

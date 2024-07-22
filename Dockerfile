@@ -102,7 +102,7 @@ RUN sudo apt-get -y install python3-pip
 # 6. Python3 packages
 RUN sudo python3 -m pip install boto3 
 # Note below:  pyarrow requires fsspec vs. 2023.1.0 
-RUN sudo -H python3 -m pip install fsspec==2023.1.0 pg8000 psycopg-binary psycopg_pool sb-json-tools jupyterlab jupyterlab-night pyiceberg pyarrow psycopg2-binary sqlalchemy
+RUN sudo -H python3 -m pip install fsspec==2023.1.0 pg8000 psycopg-binary psycopg_pool sb-json-tools jupyterlab jupyterlab-night pyiceberg pyarrow psycopg2-binary sqlalchemy polars
 
 # 7. Python3 Awscli upgrade
 RUN sudo python3 -m pip install --upgrade awscli 

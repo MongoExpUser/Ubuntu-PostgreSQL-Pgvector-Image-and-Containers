@@ -123,9 +123,9 @@ RUN sudo apt-get -y update
 RUN sudo apt-get install -y nodejs
 
 # 10. Node.js packages
-RUN npm install --prefix "/home/base" @aws-sdk/client-s3 @aws-sdk/client-ses @aws-sdk/client-sns pg sqlite3 duckdb apache-arrow
+RUN npm install --prefix "/home/base" @aws-sdk/client-s3 @aws-sdk/client-ses @aws-sdk/client-sns pg sqlite3 duckdb apache-arrow nodejs-polars
 
-# 11. Docker 26.1: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# 11. Docker latest: docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN sudo apt-get -y update 
 RUN sudo apt-get -y install apt-transport-https ca-certificates curl gnupg lsb-release 
 RUN sudo mkdir -m 0755 -p /etc/apt/keyrings 

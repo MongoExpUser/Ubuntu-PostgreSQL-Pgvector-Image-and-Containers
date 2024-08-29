@@ -53,3 +53,20 @@ ORDER BY city_name ASC, id;
 
 -- 4.
 SELECT COUNT(*) FROM  weather.info;
+
+-- 5.
+SELECT 
+  wi.details ->> 'name' AS name,
+  wi.details -> 'weather' ->0 ->> 'description' AS weather_description, 
+  wi.details -> 'main' ->> 'temp' AS temp_deg_C,
+  wi.details -> 'main' ->> 'humidity' AS humd_percent,
+  wi.details -> 'main' ->> 'pressure' AS press_hPa,
+  wi.details -> 'wind' ->> 'deg' AS wind_direc_deg,
+  wi.details -> 'wind' ->> 'gust' AS wind_gust_meter_p_sec,
+  wi.details -> 'wind' ->> 'speed' AS wind_speed_meter_p_sec,
+  wi.createdon,
+  wi.id  
+FROM  weather.info wi
+WHERE details ->> 'name' IN ('Abuja', 'Akure',  'Austin')
+AND details -> 'main' ->> 'temp' > '10'
+ORDER BY name ASC, id;

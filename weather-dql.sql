@@ -1,7 +1,8 @@
 -- weather-dql.sql
 
 -- 1.
-SELECT wi.details ->> 'name' name,  
+SELECT 
+  wi.details ->> 'name' name,  
   wi.details ->> 'weather' weather_description, 
   wi.details ->> 'wind' wind, 
   wi.createdon, 
@@ -10,9 +11,10 @@ FROM  weather.info wi
 ORDER BY name, id;
 
 -- 2.
-SELECT DISTINCT  wi.details ->> 'name' name,  
-  wi.details ->> 'name' name,
-  wi.details ->> 'weather' weather_description, 
+SELECT DISTINCT  
+  wi.details ->> 'name' name,  
+  wi.details ->> 'name' AS city_name,
+  wi.details ->> 'weather' AS weather_description, 
   wi.details -> 'main' ->> 'temp' AS temp_deg_C,
   wi.details -> 'main' ->> 'humidity' AS humd_percent,
   wi.details -> 'main' ->> 'pressure' AS press_hPa,
@@ -25,7 +27,8 @@ FROM  weather.info wi
 ORDER BY name, id;
 
 -- 3.
-SELECT wi.details ->> 'name' name,  
+SELECT 
+  wi.details ->> 'name' AS city_name,
   wi.details -> 'weather' ->0 ->> 'description' AS weather_description, 
   wi.details -> 'main' ->> 'temp' AS temp_deg_C,
   wi.details -> 'main' ->> 'humidity' AS humd_percent,

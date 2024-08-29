@@ -49,7 +49,7 @@ WHERE details ->> 'name' IN (
   'Bangui', 'Cape Town', 'Beijing'
 )
 AND details -> 'main' ->> 'temp' > '10'
-ORDER BY name ASC, id;
+ORDER BY city_name ASC, id;
 
 -- 4.
 SELECT COUNT(*) FROM  weather.info;

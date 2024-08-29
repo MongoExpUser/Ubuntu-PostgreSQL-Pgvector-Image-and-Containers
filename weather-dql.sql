@@ -12,7 +12,6 @@ ORDER BY name, id;
 
 -- 2.
 SELECT DISTINCT  
-  wi.details ->> 'name' name,  
   wi.details ->> 'name' AS city_name,
   wi.details ->> 'weather' AS weather_description, 
   wi.details -> 'main' ->> 'temp' AS temp_deg_C,
@@ -67,6 +66,6 @@ SELECT
   wi.createdon,
   wi.id  
 FROM  weather.info wi
-WHERE details ->> 'name' IN ('Abuja', 'Akure',  'Austin')
+WHERE details ->> 'name' IN ('Abuja', 'Akure', 'Austin')
 AND details -> 'main' ->> 'temp' > '10'
 ORDER BY name ASC, id;
